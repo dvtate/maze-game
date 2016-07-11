@@ -3,9 +3,9 @@
 
 // a POD data structure to hold coordinates.
 struct coord9x9 {
-  unsigned int x : 4, 
-               y : 4; 
-};
+  unsigned int r : 4, 
+               c : 4; 
 
+};
 
 #endif
