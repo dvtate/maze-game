@@ -87,12 +87,6 @@ namespace Maze {
     " ##   ## "
   };
     
-  static void clearMaze(){
-    for (uint8_t r = 0; r < 9; r++)
-      for (uint8_t c = 0; c < 9; c++)
-        if (maze[r][c] == 'S' && maze[r][c] != 'E')
-          maze[r][c] = ' ';
-  }
   
   // set the maze to another maze
   void setMaze(const char newMaze[9][10]){
@@ -102,13 +96,10 @@ namespace Maze {
   }
 
   // randomly generate the maze
-  void pickMaze(){
+  inline void pickMaze(){
     
-    // use time as a random seed
-    randomSeed(micros());
-    
-    // set a random maze
-    setMaze(mazes[random(5)]);
+    // set a random maze using time as a random seed
+    setMaze(mazes[micros() % 5]);
 
   }
 
