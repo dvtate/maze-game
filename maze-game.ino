@@ -5,8 +5,8 @@
 
 #include "utils.h"
 
-#define START_PIN 2
-#define LED_DATA_PIN 1
+#define START_PIN 3
+#define LED_DATA_PIN 2
 
 #define NUM_LEDS 81
 CRGB leds[NUM_LEDS];
@@ -32,18 +32,26 @@ void setup(){
   pinMode(LEFT_ARROW_PIN, INPUT);
   pinMode(RIGHT_ARROW_PIN, INPUT);
 
-
+/*
   // subgrid input buttons
   for (uint8_t i = 0; i < 9; i++)
     pinMode(RIGHT_ARROW_PIN + 1 + i, INPUT);
+*/
+  
+  pinMode(GRID_PIN_00, INPUT);
+  pinMode(GRID_PIN_01, INPUT);
+  pinMode(GRID_PIN_02, INPUT);
+  pinMode(GRID_PIN_10, INPUT);
+  pinMode(GRID_PIN_11, INPUT);
+  pinMode(GRID_PIN_12, INPUT);
+  pinMode(GRID_PIN_20, INPUT);
+  pinMode(GRID_PIN_21, INPUT);
+  pinMode(GRID_PIN_22, INPUT);
 
-
-
-  // populate our screen
+  // link the colors to the LEDs
   FastLED.addLeds <WS2812B, LED_DATA_PIN, RGB>(leds, NUM_LEDS);
 
-
-  // say hi on startup :) 
+  // say hi on startup :P
   Maze::setMaze(Maze::hello);
   field::showField();
   delay(2000);
@@ -64,10 +72,8 @@ void loop(){
     if (field::gameOver())
       field::endGame();
 
-
-
       
-  /// Checks if there is a cup on the coaster
+  /// Checks if there is a cup on the coaster?
   /// if so, begin the game and generate the random seed
   } else if (digitalRead(START_PIN)) { 
 
@@ -79,10 +85,6 @@ void loop(){
 
     // start the game
     gameStarted = true;
-    
-  } else {
-
-    // field::attractPlayers(); // draw text on the leds
     
   }
 
