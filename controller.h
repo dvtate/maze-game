@@ -47,34 +47,34 @@ namespace controls {
     struct coord9x9 ret;
 
     if (digitalRead(GRID_PIN_00)) {
-      ret.x = 1;
-      ret.y = 1;
+      ret.r = 1;
+      ret.c = 1;
     } else if (digitalRead(GRID_PIN_01)) {
-      ret.x = 1;
-      ret.y = 4;
+      ret.r = 1;
+      ret.c = 4;
     } else if (digitalRead(GRID_PIN_02)) {
-      ret.x = 1;
-      ret.y = 7;
+      ret.r = 1;
+      ret.c = 7;
     } else if (digitalRead(GRID_PIN_10)) {
-      ret.x = 4;
-      ret.y = 1;
+      ret.r = 4;
+      ret.c = 1;
     } else if (digitalRead(GRID_PIN_11)) {
-      ret.x = 4;
-      ret.y = 4;
+      ret.r = 4;
+      ret.c = 4;
     } else if (digitalRead(GRID_PIN_12)) {
-      ret.x = 4;
-      ret.y = 7;
+      ret.r = 4;
+      ret.c = 7;
     } else if (digitalRead(GRID_PIN_20)) {
-      ret.x = 7;
-      ret.y = 1;
+      ret.r = 7;
+      ret.c = 1;
     } else if (digitalRead(GRID_PIN_21)) {
-      ret.x = 7;
-      ret.y = 4;
+      ret.r = 7;
+      ret.c = 4;
     } else if (digitalRead(GRID_PIN_22)) {
-      ret.x = 7;
-      ret.y = 7;
+      ret.r = 7;
+      ret.c = 7;
     } else 
-      ret.x = ret.y = 0;
+      ret.r = ret.c = 0;
 
     return ret;
   }
