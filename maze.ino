@@ -11,22 +11,14 @@
 #define NUM_LEDS 81
 CRGB leds[NUM_LEDS];
 
-#include "field.h"
 
 #include "controller.h"
+#include "maze.h"
+#include "field.h"
 
 
-char maze[9][10] = {
-  "S  *     ",
-  "      *  ",
-  "*** *****",
-  "         ",
-  " ***** **",
-  "         ",
-  "  *******",
-  "        E"
-};
 
+char maze[9][10];
 struct coord9x9 player;
 bool gameStarted = false;
 
@@ -47,8 +39,14 @@ void setup(){
 
 
 
-  // populate our led array
-  FastLED.addLeds<WS2812B, LED_DATA_PIN, RGB>(leds, 81); // 9 x 9 = 81
+  // populate our screen
+  FastLED.addLeds <WS2812B, LED_DATA_PIN, RGB>(leds, NUM_LEDS);
+
+
+  // say hi on startup :) 
+  Maze::setMaze(Maze::hello);
+  field::showField();
+  delay(2000);
 
 }
 
@@ -62,21 +60,31 @@ void loop(){
     // turn on the lights
     field::showField();
 
+    // reset the game once it's over
+    if (field::gameOver())
+      field::endGame();
+
+
+
+      
   /// Checks if there is a cup on the coaster
   /// if so, begin the game and generate the random seed
   } else if (digitalRead(START_PIN)) { 
-  
-    // use the time taken to start the game as a seed
-    randomSeed(micros());
-  
-    gameStarted = true;
+
+    // select a random maze
+    Maze::pickMaze();
+
+    // put the player at the starting location
     player = field::findStart();
 
+    // start the game
+    gameStarted = true;
+    
   } else {
 
     // field::attractPlayers(); // draw text on the leds
     
   }
 
-
+  delay(500);
 }
