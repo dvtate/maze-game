@@ -5,9 +5,9 @@
 #include <FastLED.h>
 
 #include "utils.h"
-
 #include "controller.h"
 #include "maze.h"
+
 
 extern char maze[9][10];
 extern struct coord9x9 player;
@@ -18,23 +18,22 @@ struct subgrid_t {
        m20 : 1, m21 : 1, m22 : 1;
 };
 
-
 namespace field {
 
-  
   void showField(){
-    for (uint8_t x = 0; x < 9; x++)
-      for (uint8_t y = 0; y < 9; y++)
-        if (maze[x][y] == '#')
-          leds[(x * 9) + y] = CRGB::Red;
-        else if (maze[x][y] == ' ')
-          leds[(x * 9) + y] = CRGB::Black;
-        else if (maze[x][y] == 'E')
-          leds[(x * 9) + y] = CRGB::Green;
+    uint8_t lednum = 0;
+    for (uint8_t r = 0; r < 9; r++)
+      for (uint8_t c = 0; c < 9; c++)
+        if (maze[r][c] == '#')
+          leds[lednum++] = CRGB::Red;
+        else if (maze[r][c] == ' ')
+          leds[lednum++] = CRGB::Black;
+        else if (maze[r][c] == 'E')
+          leds[lednum++] = CRGB::Green;
         else 
-          leds[(x * 9) + y] = CRGB::Blue;
+          leds[lednum++] = CRGB::Blue;
 
-    leds[player.x * 9 + player.y] = CRGB::Blue;
+    leds[player.r * 9 + player.c] = CRGB::Blue;
 
 
     FastLED.show();
@@ -47,23 +46,51 @@ namespace field {
 
     struct coord9x9 ret;
 
-    for (uint8_t x = 0; x < 9; x++)
-      for (uint8_t y = 0; y < 9; y++)
-        if (maze[x][y] == 'S') {
-          ret.x = x;
-          ret.y = y;
+    for (uint8_t r = 0; r < 9; r++)
+      for (uint8_t c = 0; c < 9; c++)
+        if (maze[r][c] == 'S') {
+          ret.r = r;
+          ret.c = c;
           return ret;
         }
 
     // start not found
-    ret.x = 0;
-    ret.y = 0;
+    ret.r = 0;
+    ret.c = 0;
     return ret;
 
   }
 
-  void randSubgrid(struct coord9x9 coord){
-    if (coord.x != 0) {
+
+  static void constantMarkers(const struct coord9x9 coord,
+    struct coord9x9* start, struct coord9x9* ending
+  ){
+
+    for (int8_t r = -1; r != 2; r++)
+      for (int8_t c = -1; c != 2; c++)
+        if (maze[coord.r + r][coord.c + c] == 'S') {
+          start->r = coord.r + r;
+          start->c = coord.c + c;
+        } else if (maze[coord.r + r][coord.c + c] == 'E') {
+          ending->r = coord.r + r;
+          ending->c = coord.c + c;
+        }
+  
+  }
+
+  void randSubgrid(const struct coord9x9 coord){
+    ///TODO: this will delete the starting/ending marker!!
+    ///       FIX THIS!
+
+    
+    if (coord.r != 0) {
+
+      struct coord9x9 *start = NULL,
+                    *ending = NULL;
+  
+      // find the 'S' & 'E' markers.
+      constantMarkers(coord, start, ending);
+      
 
       // use time as a random seed
       randomSeed(micros());
@@ -80,17 +107,24 @@ namespace field {
       // this will tamper with r's values making them random 
       randint = random(65535);
       
-      maze[coord.x - 1][coord.y - 1] = r.m00 ? '#' : ' ';
-      maze[coord.x - 1][coord.y] =     r.m01 ? '#' : ' ';
-      maze[coord.x - 1][coord.y + 1] = r.m02 ? '#' : ' ';
+      maze[coord.r - 1][coord.c - 1] = r.m00 ? '#' : ' ';
+      maze[coord.r - 1][coord.c] =     r.m01 ? '#' : ' ';
+      maze[coord.r - 1][coord.c + 1] = r.m02 ? '#' : ' ';
 
-      maze[coord.x][coord.y - 1] = r.m10 ? '#' : ' ';
-      maze[coord.x][coord.y] =     r.m11 ? '#' : ' ';
-      maze[coord.x][coord.y + 1] = r.m12 ? '#' : ' ';
+      maze[coord.r][coord.c - 1] = r.m10 ? '#' : ' ';
+      maze[coord.r][coord.c] =     r.m11 ? '#' : ' ';
+      maze[coord.r][coord.c + 1] = r.m12 ? '#' : ' ';
 
-      maze[coord.x + 1][coord.y - 1] = r.m20 ? '#' : ' ';
-      maze[coord.x + 1][coord.y] =     r.m21 ? '#' : ' ';
-      maze[coord.x + 1][coord.y + 1] = r.m22 ? '#' : ' ';
+      maze[coord.r + 1][coord.c - 1] = r.m20 ? '#' : ' ';
+      maze[coord.r + 1][coord.c] =     r.m21 ? '#' : ' ';
+      maze[coord.r + 1][coord.c + 1] = r.m22 ? '#' : ' ';
+
+      // redraw the starting and ending locations
+      if (start != NULL)
+        maze[start->r][start->c] = 'S';
+      if (ending != NULL)
+        maze[ending->r][ending->c] = 'E';
+      
     }
   }
 
@@ -102,20 +136,20 @@ namespace field {
     struct inputDir input = controls::dirInput();
 
     // if it's safe to move then move
-    if (input.up && player.x != 0 && maze[player.x - 1][player.y] != '#')
-      player.x--;
-    if (input.down && player.x != 8 && maze[player.x + 1][player.y] != '#')
-      player.x++;
-    if (input.left && player.y != 0 && maze[player.x][player.y - 1] != '#')
-      player.y--;
-    if (input.left && player.y != 8 && maze[player.x][player.y + 1] != '#')
-      player.y++;
+    if (input.up && player.r != 0 && maze[player.r - 1][player.c] != '#')
+      player.r--;
+    if (input.down && player.r != 8 && maze[player.r + 1][player.c] != '#')
+      player.r++;
+    if (input.left && player.c != 0 && maze[player.r][player.c - 1] != '#')
+      player.c--;
+    if (input.left && player.c != 8 && maze[player.r][player.c + 1] != '#')
+      player.c++;
       
   }
 
 
   inline bool gameOver()
-    { return maze[player.x][player.y] == 'E'; }
+    { return maze[player.r][player.c] == 'E'; }
 
   inline void clearScreen(){
     for (uint8_t i = 0; i < NUM_LEDS; i++)
@@ -139,6 +173,5 @@ namespace field {
   }
 
 } 
-
 
 #endif
