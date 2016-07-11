@@ -4,7 +4,6 @@
 #include "Arduino.h"
 #include <FastLED.h>
 
-
 #include "utils.h"
 
 #include "controller.h"
@@ -13,8 +12,6 @@
 extern char maze[9][10];
 extern struct coord9x9 player;
 
-
-
 struct subgrid_t {
   bool m00 : 1, m01 : 1, m02 : 1,
        m10 : 1, m11 : 1, m12 : 1,
@@ -22,12 +19,8 @@ struct subgrid_t {
 };
 
 
-
-
 namespace field {
 
-
-  CRGB leds[81];
   
   void showField(){
     for (uint8_t x = 0; x < 9; x++)
