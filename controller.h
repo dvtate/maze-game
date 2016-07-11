@@ -24,10 +24,10 @@
 
 
 struct inputDir {
-  bool up : 1,
-     down : 1,
-     left : 1,
-     right : 1;
+  bool up    : 1,
+       down  : 1,
+       left  : 1,
+       right : 1;
 };
 
 
@@ -35,9 +35,9 @@ namespace controls {
 
   struct inputDir dirInput(){
     struct inputDir ret;
-    ret.up = digitalRead(UP_ARROW_PIN);
-    ret.down = digitalRead(DOWN_ARROW_PIN);
-    ret.left = digitalRead(LEFT_ARROW_PIN);
+    ret.up =    digitalRead(UP_ARROW_PIN);
+    ret.down =  digitalRead(DOWN_ARROW_PIN);
+    ret.left =  digitalRead(LEFT_ARROW_PIN);
     ret.right = digitalRead(RIGHT_ARROW_PIN);
     return ret;
   }
@@ -78,8 +78,6 @@ namespace controls {
 
     return ret;
   }
-
-
 
 }
 
