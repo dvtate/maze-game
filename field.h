@@ -22,17 +22,28 @@ namespace field {
 
   void showField(){
     uint8_t lednum = 0;
+    
     for (uint8_t r = 0; r < 9; r++)
       for (uint8_t c = 0; c < 9; c++)
-        if (maze[r][c] == '#')
-          leds[lednum++] = CRGB::Red;
-        else if (maze[r][c] == ' ')
-          leds[lednum++] = CRGB::Black;
-        else if (maze[r][c] == 'E')
-          leds[lednum++] = CRGB::Green;
-        else 
-          leds[lednum++] = CRGB::Blue;
+        switch (maze[r][c]) {
+          case '#': case 'R':
+            leds[lednum++] = CRGB::Red;
+            break;
+          case ' ':
+            leds[lednum++] = CRGB::Black;
+            break;
+          case 'E': case 'G':
+            leds[lednum++] = CRGB::Green;
+            break;
+          case 'S': case '*': case 'W':
+            leds[lednum++] = CRGB::White;
+            break;
+          case 'B':
+            leds[lednum++] = CRGB::Blue;
+            break;
+        }
 
+    // paint the player blue        
     leds[player.r * 9 + player.c] = CRGB::Blue;
 
 
@@ -128,20 +139,22 @@ namespace field {
     }
   }
 
-
-
   void updatePlayer(){
     
     // get the input from all the buttons
     struct inputDir input = controls::dirInput();
 
-    // if it's safe to move then move
+    // if it's safe to move then move...
+    
     if (input.up && player.r != 0 && maze[player.r - 1][player.c] != '#')
       player.r--;
+      
     if (input.down && player.r != 8 && maze[player.r + 1][player.c] != '#')
       player.r++;
+      
     if (input.left && player.c != 0 && maze[player.r][player.c - 1] != '#')
       player.c--;
+      
     if (input.left && player.c != 8 && maze[player.r][player.c + 1] != '#')
       player.c++;
       
@@ -151,7 +164,7 @@ namespace field {
   inline bool gameOver()
     { return maze[player.r][player.c] == 'E'; }
 
-  inline void clearScreen(){
+  void clearScreen(){
     for (uint8_t i = 0; i < NUM_LEDS; i++)
       leds[i] = CRGB::Black;
   }
