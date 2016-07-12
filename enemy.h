@@ -122,26 +122,32 @@ namespace Enemy {
 			// a random integer
 			union {
 				unsigned int val : 4;
-				struct inputDir move;
+				struct inputDir moveDir;
 			};
 
 
 			val = random(16);
-			
+
+      /// enemy is most likely to move forward, 
 			if (val < 10) {
+continue_or_reverse:
 				moveEnemy(movement);
 				if (blockAhead)
 					moveEnemy(reverseDirection(movement));
 
-			} else {
-				while (blockAhead(move))
+			} else if (val < 12) {
+			  if (
+			  
+			  
+		  } else {
+				while (blockAhead(moveDir))
 					val = random(16);
 				moveEnemy(move);
 				movement = move;
 			}
 		}
-
-	}
+		
+  }
 
 
 }
