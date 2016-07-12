@@ -27,7 +27,7 @@ namespace Enemy {
 	inline void goToSpawn()
 		{ enemy = findEnemySpawn(); }
 
-	static void moveEnemy(struct inputDir input){
+	static void moveEnemy(struct inputDir movement){
 
 	    // if it's safe to move then move...
 	    
@@ -46,35 +46,103 @@ namespace Enemy {
 
 	}
 
+	static bool blockAhead(struct inputDir movement){
+		
+		if (movement.up && maze[enemy.r - 1][enemy.c] != '#')
+			return true;
+		if (movement.down && maze[enemy.r + 1][enemy.c] != '#')
+			return true;
+		if (movement.left && maze[enemy.r][enemy.c - 1] != '#')
+			return true;
+		if (movement.right && maze[enemy.r][enemy.c + 1] != '#')
+			return true;
+
+		return false;
+			
+	}
+
+	static struct inputDir reverseDirection(struct inputDir movement){
+		
+		if (movement.up) {
+			movement.up = false;
+			movement.down = true;
+		} else if (movement.down) {
+			movement.down = false;
+			movement.up = true;
+		}
+
+		if (movement.left) {
+			movement.left = false;
+			movement.right = true;
+		} else if (movement.right) {
+			movement.right = false;
+			movement.left = true;
+		}
+
+		return movement;
+	}
 
 	void updateEnemy(){
-		uint8_t val = random(255);
+		if (enemy.r != 16) {
 
-		static struct  inputDir movement = {0,0,0,0};
+			static struct inputDir movement = {0, 0, 0, 0};
 
-		int8_t rDist = player.r - enemy.r, 
-			     cDist = player.c - enemy.c;
-
-		
-
-		if (rDist == 1)
+			int8_t rDist = player.r - enemy.r, 
+				     cDist = player.c - enemy.c;
 
 
+			bool easyKill = false; 
 
-		} else if (rDist == -1) {
+			if (rDist == 1) {
+				enemy.r++;
+				easyKill = true;
+				movement = {0, 1, 0, 0};
+			} else if (rDist == -1) {
+				enemy.r--;
+				easyKill = true;
+				movement = {1, 0, 0, 0};
+			}
+
+			if (cDist == 1) {
+				enemy.c++;
+				easyKill = true;
+				movement.left = false;
+				movement.right = true;
+			} else if (cDist == -1) {
+				enemy.c--;
+				easyKill = true;
+				movement.left = true;
+				movement.right = false;
+			}
+
+			if (easyKill) 
+				return;
+
+			// the movement direction is randomized by corrupting it's value with
+			// a random integer
+			union {
+				unsigned int val : 4;
+				struct inputDir move;
+			};
 
 
-		} 
-
-
-		if (val > 50) {
-
-		} else if (val )
+			val = random(16);
 			
+			if (val < 10) {
+				moveEnemy(movement);
+				if (blockAhead)
+					moveEnemy(reverseDirection(movement));
 
-
+			} else {
+				while (blockAhead(move))
+					val = random(16);
+				moveEnemy(move);
+				movement = move;
+			}
+		}
 
 	}
+
 
 }
 
