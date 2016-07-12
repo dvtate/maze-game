@@ -114,13 +114,13 @@ namespace field {
       // into a random subgrid_t my using a shared
       // space in memory
       union {
-        uint16_t randint;  
+        unsigned int randint : 9;  
         struct subgrid_t r;
       };
 
 
       // this will tamper with r's values making them random 
-      randint = random(65535);
+      randint = random(511);
       
       maze[coord.r - 1][coord.c - 1] = r.m00 ? '#' : ' ';
       maze[coord.r - 1][coord.c] =     r.m01 ? '#' : ' ';
