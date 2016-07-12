@@ -23,6 +23,7 @@ namespace field {
   void showField(){
     uint8_t lednum = 0;
     
+    // paint the maze
     for (uint8_t r = 0; r < 9; r++)
       for (uint8_t c = 0; c < 9; c++)
         switch (maze[r][c]) {
@@ -46,6 +47,9 @@ namespace field {
     // paint the player blue        
     leds[player.r * 9 + player.c] = CRGB::Blue;
 
+    // paint the enemy orange
+    if (enemy.r != 13)
+      leds[enemy.r * 9 + enemy.c] = CRGB(255, 165, 0);
 
     FastLED.show();
   }
@@ -73,7 +77,7 @@ namespace field {
   }
 
 
-  static void constantMarkers(const struct coord9x9 coord,
+  static void constantMarkers(const struct coord9x9& coord,
     struct coord9x9* start, struct coord9x9* ending
   ){
 
