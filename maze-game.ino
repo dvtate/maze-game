@@ -8,7 +8,7 @@
 #define START_PIN 3
 #define LED_DATA_PIN 2
 
-#define NUM_LEDS 81
+#define NUM_LEDS 81 // 9 x 9 = 81
 CRGB leds[NUM_LEDS];
 
 
@@ -19,6 +19,7 @@ CRGB leds[NUM_LEDS];
 
 
 char maze[9][10];
+
 struct coord9x9 player;
 bool gameStarted = false;
 
@@ -68,11 +69,11 @@ void loop(){
     // turn on the lights
     field::showField();
 
-    // reset the game once it's over
-    if (field::gameOver())
-      field::endGame();
+    // enemy kills you or you reach the destination
+    if (field::gameOver() || player == enemy)
+      field::endGame(); // reset the game once it's over
 
-      
+    
   /// Checks if there is a cup on the coaster?
   /// if so, begin the game and generate the random seed
   } else if (digitalRead(START_PIN)) { 
