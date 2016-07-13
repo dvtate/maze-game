@@ -66,13 +66,20 @@ void loop(){
     // change the maze based on input from the user
     field::randSubgrid(controls::subgridInput());
 
+ 
+    field::updatePlayer();
+    Enemy::updateEnemy();
+
     // turn on the lights
     field::showField();
+
 
     // enemy kills you or you reach the destination
     if (field::gameOver() || player == enemy)
       field::endGame(); // reset the game once it's over
 
+
+    
     
   /// Checks if there is a cup on the coaster?
   /// if so, begin the game and generate the random seed
@@ -86,7 +93,9 @@ void loop(){
 
     // start the game
     gameStarted = true;
-    
+
+    Enemy::goToSpawn();
+
   }
 
   delay(500);
