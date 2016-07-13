@@ -75,7 +75,7 @@ void loop(){
 
 
     // enemy kills you or you reach the destination
-    if (field::gameOver() || (player.r == enemy.r && player.c == enemy.c))
+    if (field::gameOver())
       field::endGame(); // reset the game once it's over
 
 
