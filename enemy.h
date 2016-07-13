@@ -132,11 +132,29 @@ namespace Enemy {
 			if (val < 10) {
 continue_or_reverse:
 				moveEnemy(movement);
-				if (blockAhead)
+				if (blockAhead(movement))
 					moveEnemy(reverseDirection(movement));
 
 			} else if (val < 12) {
-			  if (
+			  if (movement.up || movement.down)
+          if (enemy.c != 0 && maze[enemy.r][enemy.c - 1] != '#') {
+            enemy.c--;
+            enemy.movement = {0, 0, 1, 0};
+          } else if (enemy.c != 0 && maze[enemy.r][enemy.c + 1] != '#') {
+            enemy.c++;
+            enemy.movement = {0, 0, 0, 1};
+          }
+        else if (movement.left || movement.right)
+          if (enemy.r != 0 && maze[enemy.r - 1][enemy.c] != '#') {
+            enemy.r--;
+            enemy.movement = {0, 0, 1, 0};
+          } else if (enemy.r != 0 && maze[enemy.r + 1][enemy.c] != '#') {
+            enemy.r++;
+            enemy.movement = {0, 0, 0, 1};
+          }
+
+        else
+          goto continue_or_reverse;
 			  
 			  
 		  } else {
