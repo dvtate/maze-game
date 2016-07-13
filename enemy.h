@@ -57,13 +57,13 @@ namespace Enemy {
 
 	static bool blockAhead(struct inputDir movement){
 		
-		if (movement.up && maze[enemy.r - 1][enemy.c] != '#')
+		if (movement.up && (enemy.r == 0 || maze[enemy.r - 1][enemy.c] == '#'))
 			return true;
-		if (movement.down && maze[enemy.r + 1][enemy.c] != '#')
+		if (movement.down && (enemy.r == 8 || maze[enemy.r + 1][enemy.c] == '#'))
 			return true;
-		if (movement.left && maze[enemy.r][enemy.c - 1] != '#')
+		if (movement.left && (enemy.c == 0 || maze[enemy.r][enemy.c - 1] == '#'))
 			return true;
-		if (movement.right && maze[enemy.r][enemy.c + 1] != '#')
+		if (movement.right && (enemy.c == 8 || maze[enemy.r][enemy.c + 1] == '#'))
 			return true;
 
 		return false;
