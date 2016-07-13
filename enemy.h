@@ -1,9 +1,18 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+
 #include "utils.h"
+#include "controller.h"
+#include "maze.h"
+
+
+extern char maze[9][10];
+extern struct coord9x9 player;
 
 struct coord9x9 enemy;
+
+
 
 namespace Enemy {
 
@@ -139,18 +148,18 @@ continue_or_reverse:
 			  if (movement.up || movement.down)
           if (enemy.c != 0 && maze[enemy.r][enemy.c - 1] != '#') {
             enemy.c--;
-            enemy.movement = {0, 0, 1, 0};
+            movement = {0, 0, 1, 0};
           } else if (enemy.c != 0 && maze[enemy.r][enemy.c + 1] != '#') {
             enemy.c++;
-            enemy.movement = {0, 0, 0, 1};
+            movement = {0, 0, 0, 1};
           }
         else if (movement.left || movement.right)
           if (enemy.r != 0 && maze[enemy.r - 1][enemy.c] != '#') {
             enemy.r--;
-            enemy.movement = {0, 0, 1, 0};
+            movement = {0, 0, 1, 0};
           } else if (enemy.r != 0 && maze[enemy.r + 1][enemy.c] != '#') {
             enemy.r++;
-            enemy.movement = {0, 0, 0, 1};
+            movement = {0, 0, 0, 1};
           }
 
         else
@@ -160,8 +169,8 @@ continue_or_reverse:
 		  } else {
 				while (blockAhead(moveDir))
 					val = random(16);
-				moveEnemy(move);
-				movement = move;
+				moveEnemy(moveDir);
+				movement = moveDir;
 			}
 		}
 		
