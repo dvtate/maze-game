@@ -15,7 +15,7 @@ CRGB leds[NUM_LEDS];
 #include "controller.h"
 #include "maze.h"
 #include "field.h"
-
+#include "enemy.h"
 
 
 char maze[9][10];
@@ -66,7 +66,7 @@ void loop(){
     // change the maze based on input from the user
     field::randSubgrid(controls::subgridInput());
 
- 
+    // update the player and enemy positions
     field::updatePlayer();
     Enemy::updateEnemy();
 
@@ -75,7 +75,7 @@ void loop(){
 
 
     // enemy kills you or you reach the destination
-    if (field::gameOver() || player == enemy)
+    if (field::gameOver() || (player.r == enemy.r && player.c == enemy.c))
       field::endGame(); // reset the game once it's over
 
 
