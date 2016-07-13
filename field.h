@@ -165,8 +165,10 @@ namespace field {
   }
 
 
-  inline bool gameOver()
-    { return maze[player.r][player.c] == 'E'; }
+  inline bool gameOver(){
+    return (player.r == enemy.r && player.c == enemy.c)
+            || maze[player.r][player.c] == 'E'; 
+  }
 
   void clearScreen(){
     for (uint8_t i = 0; i < NUM_LEDS; i++)
