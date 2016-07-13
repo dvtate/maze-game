@@ -10,7 +10,7 @@
 
 
 extern char maze[9][10];
-extern struct coord9x9 player;
+extern struct coord9x9 player, enemy;
 
 struct subgrid_t {
   bool m00 : 1, m01 : 1, m02 : 1,
