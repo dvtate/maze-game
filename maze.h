@@ -76,9 +76,9 @@ namespace Maze {
   
   // LOL GG
   const char gg[9][10] = {
-    "         ",
-    "         ",
-    "         ",
+    "#   # #  ",
+    "#  # ##  ",
+    "### # ###",
     " ##   ## ",
     "#  # #  #",
     "#    #   ",
@@ -94,7 +94,7 @@ namespace Maze {
       for (uint8_t c = 0; c < 9; c++)
         maze[r][c] = newMaze[r][c];
   }
-
+  
   // randomly generate the maze
   inline void pickMaze(){
     
