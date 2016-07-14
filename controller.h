@@ -7,20 +7,20 @@
 
 
 /// change these values :)
-#define UP_ARROW_PIN 3
-#define RIGHT_ARROW_PIN 4
-#define DOWN_ARROW_PIN 5
-#define LEFT_ARROW_PIN 6
+#define UP_ARROW_PIN 2
+#define RIGHT_ARROW_PIN 3
+#define DOWN_ARROW_PIN 4
+#define LEFT_ARROW_PIN 5
 
 #define GRID_PIN_00 7
-#define GRID_PIN_01 8
-#define GRID_PIN_02 9
-#define GRID_PIN_10 10
-#define GRID_PIN_11 11
-#define GRID_PIN_12 12
-#define GRID_PIN_20 13
-#define GRID_PIN_21 14
-#define GRID_PIN_22 15
+#define GRID_PIN_01 9
+#define GRID_PIN_02 8
+#define GRID_PIN_10 15 
+#define GRID_PIN_11 10 
+#define GRID_PIN_12 16
+#define GRID_PIN_20 14
+#define GRID_PIN_21 A1
+#define GRID_PIN_22 A0
 
 
 struct inputDir {
