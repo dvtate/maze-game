@@ -5,8 +5,8 @@
 
 #include "utils.h"
 
-#define START_PIN 3
-#define LED_DATA_PIN 2
+#define START_PIN 8
+#define LED_DATA_PIN A3
 
 #define NUM_LEDS 81 // 9 x 9 = 81
 CRGB leds[NUM_LEDS];
@@ -50,7 +50,7 @@ void setup(){
   pinMode(GRID_PIN_22, INPUT);
 
   // link the colors to the LEDs
-  FastLED.addLeds <WS2812B, LED_DATA_PIN, RGB>(leds, NUM_LEDS);
+  FastLED.addLeds <WS2812B, LED_DATA_PIN, GRB>(leds, NUM_LEDS);
 
   // say hi on startup :P
   Maze::setMaze(Maze::hello);
