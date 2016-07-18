@@ -52,7 +52,7 @@ namespace Enemy {
 	    if (movement.left && enemy.c != 8 && maze[enemy.r][enemy.c + 1] != '#')
 	      enemy.c++;
 
-
+     
 	}
 
 	static bool blockAhead(struct inputDir movement){
@@ -91,6 +91,15 @@ namespace Enemy {
 		return movement;
 	}
 
+  bool lockedIn(){
+    for (int8_t r = -1; r != 2; r++)
+      for (int8_t c = -1; c != 2; c++)
+        if (maze[enemy.r + r][enemy.c + c] != '#')
+          return false;
+
+    return true;
+  }
+
 	void updateEnemy(){
 		if (enemy.r != 16) {
 
@@ -99,6 +108,7 @@ namespace Enemy {
 			int8_t rDist = player.r - enemy.r, 
 				     cDist = player.c - enemy.c;
 
+      coord9x9 pastLoc = enemy;
 
 			bool easyKill = false; 
 
@@ -140,6 +150,9 @@ namespace Enemy {
       /// enemy is most likely to move forward, 
 			if (val < 10) {
 continue_or_reverse:
+        if (movement.up == 0 && movement.down == 0 && movement.left == 0 && movement.right == 0)
+          goto random_movement;
+          
 				moveEnemy(movement);
 				if (blockAhead(movement))
 					moveEnemy(reverseDirection(movement));
@@ -167,11 +180,19 @@ continue_or_reverse:
 			  
 			  
 		  } else {
-				while (blockAhead(moveDir))
-					val = random(16);
+random_movement:        
+        moveDir = {0, 0, 0, 0};
+        if (!lockedIn())
+				  while (!blockAhead(moveDir) && !(moveDir.up || moveDir.down || moveDir.left || moveDir.right))
+					  val = random(16);
+				
 				moveEnemy(moveDir);
 				movement = moveDir;
+       
 			}
+
+      if (enemy.r == pastLoc.r && enemy.c == pastLoc.c && !lockedIn())
+        goto random_movement;
 		}
 		
   }
