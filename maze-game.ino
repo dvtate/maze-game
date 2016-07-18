@@ -6,7 +6,7 @@
 #include "utils.h"
 
 #define START_PIN 8
-#define LED_DATA_PIN A3
+#define LED_DATA_PIN A2
 
 #define NUM_LEDS 81 // 9 x 9 = 81
 CRGB leds[NUM_LEDS];
@@ -98,5 +98,5 @@ void loop(){
 
   }
 
-  delay(500);
+  delay(250);
 }
