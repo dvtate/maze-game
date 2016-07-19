@@ -70,7 +70,7 @@ namespace Enemy {
 			
 	}
 
-	static struct inputDir reverseDirection(struct inputDir movement){
+	static struct inputDir& reverseDirection(struct inputDir& movement){
 		
 		if (movement.up) {
 			movement.up = false;
@@ -137,7 +137,7 @@ namespace Enemy {
 			if (easyKill) 
 				return;
 
-			// the movement direction is randomized by corrupting it's value with
+			// the movement direction is randomized by corrupting it's memory with
 			// a random integer
 			union {
 				unsigned int val : 4;
@@ -150,7 +150,7 @@ namespace Enemy {
       /// enemy is most likely to move forward, 
 			if (val < 10) {
 continue_or_reverse:
-        if (movement.up == 0 && movement.down == 0 && movement.left == 0 && movement.right == 0)
+        if (!movement.up && !movement.down && !movement.left && !movement.right)
           goto random_movement;
           
 				moveEnemy(movement);
@@ -158,11 +158,12 @@ continue_or_reverse:
 					moveEnemy(reverseDirection(movement));
 
 			} else if (val < 12) {
+        
 			  if (movement.up || movement.down)
           if (enemy.c != 0 && maze[enemy.r][enemy.c - 1] != '#') {
             enemy.c--;
             movement = {0, 0, 1, 0};
-          } else if (enemy.c != 0 && maze[enemy.r][enemy.c + 1] != '#') {
+          } else if (enemy.c != 8 && maze[enemy.r][enemy.c + 1] != '#') {
             enemy.c++;
             movement = {0, 0, 0, 1};
           }
@@ -170,7 +171,7 @@ continue_or_reverse:
           if (enemy.r != 0 && maze[enemy.r - 1][enemy.c] != '#') {
             enemy.r--;
             movement = {0, 0, 1, 0};
-          } else if (enemy.r != 0 && maze[enemy.r + 1][enemy.c] != '#') {
+          } else if (enemy.r != 8 && maze[enemy.r + 1][enemy.c] != '#') {
             enemy.r++;
             movement = {0, 0, 0, 1};
           }
@@ -199,9 +200,6 @@ random_movement:
 
 
 }
-
-
-
 
 
 #endif
