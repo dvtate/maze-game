@@ -13,7 +13,6 @@ extern struct coord9x9 player;
 struct coord9x9 enemy;
 
 
-
 namespace Enemy {
 
 	static inline struct coord9x9 findEnemySpawn(){
