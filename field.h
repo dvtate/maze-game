@@ -11,6 +11,7 @@
 
 extern char maze[9][10];
 extern struct coord9x9 player, enemy;
+extern bool gameStarted;
 
 struct subgrid_t {
   bool m00 : 1, m01 : 1, m02 : 1,
@@ -137,6 +138,7 @@ namespace field {
       // redraw the starting and ending locations
       if (start != NULL)
         maze[start->r][start->c] = 'S';
+        
       if (ending != NULL)
         maze[ending->r][ending->c] = 'E';
       
@@ -159,7 +161,7 @@ namespace field {
     if (input.left && player.c != 0 && maze[player.r][player.c - 1] != '#')
       player.c--;
       
-    if (input.left && player.c != 8 && maze[player.r][player.c + 1] != '#')
+    if (input.right && player.c != 8 && maze[player.r][player.c + 1] != '#')
       player.c++;
       
   }
@@ -167,7 +169,7 @@ namespace field {
 
   inline bool gameOver(){
     return (player.r == enemy.r && player.c == enemy.c)
-            || maze[player.r][player.c] == 'E'; 
+            || maze[player.r][player.c] == 'E';
   }
 
   void clearScreen(){
@@ -185,9 +187,13 @@ namespace field {
     showField();
     delay(5000);
 
+    gameStarted = false;
+    
     // draw in more players
     Maze::setMaze(Maze::hello);
     showField();
+
+    
     
   }
 
