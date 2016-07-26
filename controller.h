@@ -6,21 +6,20 @@
 #include "utils.h"
 
 
-/// change these values :)
-#define UP_ARROW_PIN 2
-#define RIGHT_ARROW_PIN 3
-#define DOWN_ARROW_PIN 4
-#define LEFT_ARROW_PIN 5
+#define DOWN_ARROW_PIN A1
+#define UP_ARROW_PIN A2
+#define RIGHT_ARROW_PIN A3
+#define LEFT_ARROW_PIN A4
 
-#define GRID_PIN_00 7
-#define GRID_PIN_01 9
-#define GRID_PIN_02 8
-#define GRID_PIN_10 15 
-#define GRID_PIN_11 10 
-#define GRID_PIN_12 16
-#define GRID_PIN_20 14
-#define GRID_PIN_21 A1
-#define GRID_PIN_22 A0
+#define GRID_PIN_00 3
+#define GRID_PIN_01 4
+#define GRID_PIN_02 2
+#define GRID_PIN_10 5 
+#define GRID_PIN_11 8
+#define GRID_PIN_12 7
+#define GRID_PIN_20 6
+#define GRID_PIN_21 9
+#define GRID_PIN_22 10
 
 
 struct inputDir {
