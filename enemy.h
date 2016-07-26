@@ -93,13 +93,18 @@ namespace Enemy {
   bool lockedIn(){
     for (int8_t r = -1; r != 2; r++)
       for (int8_t c = -1; c != 2; c++)
-        if (maze[enemy.r + r][enemy.c + c] != '#')
+        if (maze[enemy.r + r][enemy.c + c] != '#' 
+          && enemy.r != 0 && enemy.r != 8
+          && enemy.c != 0 && enemy.c != 8
+        )
           return false;
 
     return true;
   }
 
 	void updateEnemy(){
+    uint16_t crunches = 0;
+  
 		if (enemy.r != 16) {
 
 			static struct inputDir movement = {0, 0, 0, 0};
@@ -181,17 +186,20 @@ continue_or_reverse:
 			  
 		  } else {
 random_movement:        
-        moveDir = {0, 0, 0, 0};
-        if (!lockedIn())
-				  while (!blockAhead(moveDir) && !(moveDir.up || moveDir.down || moveDir.left || moveDir.right))
-					  val = random(16);
-				
+  //    moveDir = {0, 0, 0, 0};
+  //    if (!lockedIn())
+  //      while ((moveDir.up == 0 && moveDir.down == 0
+  //        && moveDir.left == 0 && moveDir.right == 0)
+  //        || blockAhead(moveDir)
+	//      )  
+				val = random(16);
+        crunches++;      
 				moveEnemy(moveDir);
 				movement = moveDir;
        
 			}
 
-      if (enemy.r == pastLoc.r && enemy.c == pastLoc.c && !lockedIn())
+      if (enemy.r == pastLoc.r && enemy.c == pastLoc.c && !lockedIn() && crunches < 2000)
         goto random_movement;
 		}
 		
