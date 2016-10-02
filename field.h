@@ -13,29 +13,36 @@ extern char maze[9][10];
 extern struct coord9x9 player, enemy;
 extern bool gameStarted;
 
+
 namespace field {
 
+  // draws the maze, players, enemy, etc.
   void showField(){
     uint8_t lednum = 0;
     
     // paint the maze
     for (uint8_t r = 0; r < 9; r++)
-      for (uint8_t c = 0; c < 9; c++)
+      for (uint8_t c = 0; c < 9; c++, lednum++)
         switch (maze[r][c]) {
+          // the walls are red
           case '#': case 'R':
-            leds[lednum++] = CRGB::Red;
+            leds[lednum] = CRGB::Red;
             break;
+          // the path isnt lit up
           case ' ':
-            leds[lednum++] = CRGB::Black;
+            leds[lednum] = CRGB::Black;
             break;
+          // the exit/goal/destination is green
           case 'E': case 'G':
-            leds[lednum++] = CRGB::Green;
+            leds[lednum] = CRGB::Green;
             break;
+          // the player-spawn is white
           case 'S': case '*': case 'W':
-            leds[lednum++] = CRGB::White;
+            leds[lednum] = CRGB::White;
             break;
+          
           case 'B':
-            leds[lednum++] = CRGB::Blue;
+            leds[lednum] = CRGB::Blue;
             break;
         }
 
@@ -51,7 +58,7 @@ namespace field {
 
 
 
-
+  // cordinates of the player-spawn-point
   struct coord9x9 findStart(){
 
     struct coord9x9 ret;
@@ -71,7 +78,7 @@ namespace field {
 
   }
 
-
+  // sets the coordinates of the starting and ending points
   static void constantMarkers(const struct coord9x9& coord,
     struct coord9x9* start, struct coord9x9* ending
   ){
@@ -93,10 +100,10 @@ namespace field {
     ///       FIX THIS!
 
     
-    if (coord.r != 0) {
+    if (coord.r != 0) { // if there is a subgrid to randomize
 
       struct coord9x9 *start = NULL,
-                    *ending = NULL;
+                      *ending = NULL;
   
       // find the 'S' & 'E' markers.
       constantMarkers(coord, start, ending);
@@ -116,7 +123,7 @@ namespace field {
 
 
       // this will tamper with r's values making them random 
-      randint = random(511);
+      randint = random(512);
       
       maze[coord.r - 1][coord.c - 1] = r.m00 ? '#' : ' ';
       maze[coord.r - 1][coord.c] =     r.m01 ? '#' : ' ';
@@ -161,13 +168,14 @@ namespace field {
       
   }
 
-
+  // is the  game over
   inline bool gameOver(){
-    return (player.r == enemy.r && player.c == enemy.c)
-            || maze[player.r][player.c] == 'E';
+    return (player.r == enemy.r && player.c == enemy.c)   // player touching enemy?
+           || maze[player.r][player.c] == 'E';           // is player on the goal?
   }
 
-  void clearScreen(){
+  // turn all the LED's off
+  inline void clearScreen(){
     for (uint8_t i = 0; i < NUM_LEDS; i++)
       leds[i] = CRGB::Black;
   }
@@ -188,8 +196,6 @@ namespace field {
     Maze::setMaze(Maze::hello);
     showField();
 
-    
-    
   }
 
 } 
