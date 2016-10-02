@@ -24,16 +24,6 @@
 #define GRID_PIN_21 9
 #define GRID_PIN_22 10
 
-
-// used for storing D-pad input
-struct inputDir {
-  bool up    : 1,
-       down  : 1,
-       left  : 1,
-       right : 1;
-};
-
-
 namespace controls {
   
   // get D-pad input
