@@ -108,10 +108,10 @@ namespace Enemy {
   }
 
   // if enemy is only 1 away from player, kill player
-  static bool easyKill(struct inputDir& movement){
+  static bool isEasyKill(struct inputDir& movement){
     // calculate how far away the player is
     struct coord9x9 distToPlayer =
-      { player.r - enemy.r, player.c - enemy.c }
+      { player.r - enemy.r, player.c - enemy.c };
 
     bool easyKill = false; 
 
@@ -153,7 +153,7 @@ namespace Enemy {
 
 			static struct inputDir movement = {0, 0, 0, 0};
 
-      if (easyKill(movement))
+      if (isEasyKill(movement))
         return;
 
       coord9x9 pastLoc = enemy;
