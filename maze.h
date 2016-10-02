@@ -63,7 +63,7 @@ namespace Maze {
 
   // Hi!
   const char hello[9][10] = {
-    "S########",
+    " ########",
     "    #    ",
     " ########",
     "         ",
@@ -71,7 +71,7 @@ namespace Maze {
     "         ",
     " # ######",
     "         ",
-    "        E"
+    "         "
   };
   
   // LOL GG
