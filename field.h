@@ -13,12 +13,6 @@ extern char maze[9][10];
 extern struct coord9x9 player, enemy;
 extern bool gameStarted;
 
-struct subgrid_t {
-  bool m00 : 1, m01 : 1, m02 : 1,
-       m10 : 1, m11 : 1, m12 : 1,
-       m20 : 1, m21 : 1, m22 : 1;
-};
-
 namespace field {
 
   void showField(){
@@ -118,6 +112,7 @@ namespace field {
         unsigned int randint : 9;  
         struct subgrid_t r;
       };
+      
 
 
       // this will tamper with r's values making them random 
