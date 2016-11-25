@@ -26,6 +26,16 @@
 
 namespace controls {
   
+  // if any of the buttons gets pressed
+  inline bool gameStart(){
+    return 
+      digitalRead(GRID_PIN_00) || digitalRead(GRID_PIN_01) || digitalRead(GRID_PIN_02) ||
+      digitalRead(GRID_PIN_10) || digitalRead(GRID_PIN_11) || digitalRead(GRID_PIN_12) ||
+      digitalRead(GRID_PIN_20) || digitalRead(GRID_PIN_21) || digitalRead(GRID_PIN_22) ||
+      digitalRead(DOWN_ARROW_PIN) || digitalRead(RIGHT_ARROW_PIN) ||
+      digitalRead(UP_ARROW_PIN)   || digitalRead(DOWN_ARROW_PIN);
+  }
+  
   // get D-pad input
   inline struct inputDir dirInput(){
     struct inputDir ret;
