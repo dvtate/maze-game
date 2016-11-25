@@ -2,6 +2,7 @@
 - An arduino controlled coffee-table LED maze game.
 - I made this with a team of fellow engineering majors at GHP (governors honors program) in 2016.
 - This code was designed to run on an arduino nano
+
 # How the game works
 - There are 9 3x3 tiles arranged in a grid. 
 - The game is started by pressing the starting tile (top left)
