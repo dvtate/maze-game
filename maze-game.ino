@@ -99,9 +99,9 @@ void loop(){
 //    Serial.println("cycle end");
     
     
-  /// Checks if there is a cup on the coaster?
+  /// Checks if there is a cup on the coaster? (EDIT: checks if a button is depressed)
   /// if so, begin the game and generate the random seed
-  } else if (digitalRead(START_PIN)) { 
+  } else if (controls::gameStart()) { 
 
     // select a random maze
     Maze::pickMaze();
@@ -114,7 +114,7 @@ void loop(){
 
     Enemy::goToSpawn();
 
-    while (digitalRead(START_PIN))
+    while (controls::gameStart())
       delay(20);
 
   }
