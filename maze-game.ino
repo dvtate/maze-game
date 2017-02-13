@@ -35,12 +35,6 @@ void setup(){
   pinMode(LEFT_ARROW_PIN, INPUT);
   pinMode(RIGHT_ARROW_PIN, INPUT);
 
-/*
-  // subgrid input buttons
-  for (uint8_t i = 0; i < 9; i++)
-    pinMode(RIGHT_ARROW_PIN + 1 + i, INPUT);
-*/
-  
   pinMode(GRID_PIN_00, INPUT);
   pinMode(GRID_PIN_01, INPUT);
   pinMode(GRID_PIN_02, INPUT);
