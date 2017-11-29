@@ -14,3 +14,4 @@
 - If the player is killed or reaches the end of the maze, the board says "GG" and the game is over. 
 - Once the board says "Hi!" again, the game can be restarted and a random maze will be selected like last time.
 
+## Alternative ROM: https://github.com/dvtate/RTTT
